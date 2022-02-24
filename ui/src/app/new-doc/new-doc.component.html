@@ -1,0 +1,41 @@
+<div class="create-doc">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Create New Document</li>
+    </ol>
+  </nav>
+  <div class="page-content">
+    <div class="row">
+      <div class="col col-md-12">
+
+        <form class="create-form" [formGroup]="newDocForm" novalidate (ngSubmit)="onSubmit(newDocForm.value)">
+
+          <div class="form-group">
+            <mat-form-field class="input-style">
+              <input matInput placeholder="Name" class="form-control" formControlName="name">
+            </mat-form-field>
+            <ng-container *ngFor="let validation of validation_messages.name">
+              <mat-error *ngIf="newDocForm.get('name').hasError(validation.type) && (newDocForm.get('name').dirty || newDocForm.get('name').touched)">{{validation.message}}</mat-error>
+            </ng-container>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field class="input-style">
+              <input matInput placeholder="Description" class="form-control" formControlName="description">
+            </mat-form-field>
+            <ng-container *ngFor="let validation of validation_messages.description">
+              <mat-error *ngIf="newDocForm.get('description').hasError(validation.type) && (newDocForm.get('description').dirty || newDocForm.get('description').touched)">{{validation.message}}</mat-error>
+            </ng-container>
+          </div>
+
+          <div class="row submit-button-container">
+            <div class="col-md-4">
+              <button mat-raised-button class="submit-button" color="primary" type="submit" [disabled]="!newDocForm.valid">Create</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="edit-doc">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">{{docName}}</li>
+    </ol>
+  </nav>
+  <div class="page-content">
+    <div class="row">
+      <div class="col col-md-10">
+        <ace-editor
+          #firepad
+          [(text)]="emlTextValue"
+          [autoUpdateContent]="true"
+          class="ace-editor"
+          style="padding: 20px; min-height: 200px; width:100%; overflow: auto;">
+        </ace-editor>
+      </div>
+      <div class="col col-md-2">
+        <div *ngFor="let user of users | keyvalue">
+          <div class="row" [ngStyle]="{'background-color': user.value}">
+            {{user.key.split("-")[1]}}
+          </div>
+        </div>
+      </div>
+      <div class="col col-md-10">
+        <div class="row submit-button-container">
+          <div class="col-md-3">
+            <button mat-raised-button class="submit-button" color="primary" (click)="onSubmit()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="row image-container">
+        <div class="col col-md-12">
+          <img src="{{emlPng}}"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

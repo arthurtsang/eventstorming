@@ -1,0 +1,8 @@
+Command ->
+# hi there
+# what's up?
+event
+document* //one, two, three
+
+ABC ->
+abc // apple, orange, banana

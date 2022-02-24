@@ -1,0 +1,39 @@
+@startuml
+skinparam component {
+	backgroundColor<<event>> Orange
+	backgroundColor<<command>> LightBlue
+	backgroundColor<<external>> Pink
+	backgroundColor<<document>> Green
+}
+component C0 <<command>> [
+Command
+]
+note top of C0
+hi there
+what's up?
+end note
+component C3 <<event>> [
+event
+]
+C0 --> C3
+component C4 <<document>> [
+document
+---
+- one
+- two
+- three
+]
+C3 -[hidden]-> C4
+component C5 <<command>> [
+ABC
+]
+C0 -[hidden]right-> C5
+component C6 <<event>> [
+abc 
+---
+- apple
+- orange
+- banana
+]
+C5 --> C6
+@enduml

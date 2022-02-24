@@ -1,0 +1,63 @@
+@startuml
+skinparam component {
+	backgroundColor<<event>> Orange
+	backgroundColor<<command>> LightBlue
+	backgroundColor<<external>> Pink
+	backgroundColor<<document>> Green
+}
+component C0 <<command>> [
+ABC
+---
+<&person> UUU
+]
+component C1 <<event>> [
+abc
+]
+C0 --> C1
+component C2 <<command>> [
+DEF
+---
+<&person> UUU
+]
+C0 -[hidden]right-> C2
+component C3 <<event>> [
+def
+]
+C2 --> C3
+component C4 <<command>> [
+XXX
+---
+<&person> UUU
+---
+<&task> 1234
+]
+C2 -[hidden]right-> C4
+component C5 <<event>> [
+xxx
+]
+C4 --> C5
+component C6 <<command>> [
+YYY
+---
+<&person> UUU
+---
+<&task> 1234
+]
+C4 -[hidden]right-> C6
+component C7 <<event>> [
+yyy
+]
+C6 --> C7
+component C8 <<command>> [
+ZZZ
+---
+<&person> UUU
+---
+<&task> 1234
+]
+C6 -[hidden]right-> C8
+component C9 <<event>> [
+zzz
+]
+C8 --> C9
+@enduml

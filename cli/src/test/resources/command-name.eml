@@ -1,0 +1,14 @@
+(UUU) ABC ->
+abc
+
+DEF (UUU) ->
+def
+
+(UUU) XXX [1234] ->
+xxx
+
+[1234] YYY (UUU) ->
+yyy
+
+ZZZ (UUU) [1234] ->
+zzz

@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Delete diagram "{{doc.name}}"</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-dialog-actions>
+    <div class="row submit-button-container">
+      <button class="mat-raised-button" class="submit-button" mat-pimary (click)="cancel()">No</button>
+      <button class="mat-raised-button" class="submit-button" (click)="delete()">Yes</button>
+    </div>
+  </mat-dialog-actions>
+</mat-dialog-content>
