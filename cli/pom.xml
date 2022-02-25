@@ -14,6 +14,25 @@
         <version>${revision}</version>
     </parent>
 
+    <description>A PlantUML like DSL to generate eventstorming diagrams</description>
+    <url>https://github.com/arthurtsang/eventstorming</url>
+    <scm>
+        <connection>scm:git:git@github.com:arthurtsang/eventstorming.git</connection>
+        <developerConnection>scm:git:git@github.com:arthurtsang/eventstorming.git</developerConnection>
+        <url>https://github.com/arthurtsang/eventstorming</url>
+        <tag>1.0.0</tag>
+    </scm>
+    <licenses>
+        <license>
+            <name>WTFPL</name>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Arthur Tsang</name>
+        </developer>
+    </developers>
+
     <properties>
         <main.class>com.youramaryllis.eventstorming.EventStormingKt</main.class>
     </properties>
@@ -79,4 +98,19 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>github</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/arthurtsang/eventstorming</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
