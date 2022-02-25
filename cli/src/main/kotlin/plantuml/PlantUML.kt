@@ -5,19 +5,22 @@ import net.sourceforge.plantuml.SourceStringReader
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.lang.RuntimeException
 import java.nio.file.Path
 import java.util.stream.IntStream
 
 class PlantUML (domainObjects : List<DomainObject>){
     val stringBuilder: StringBuilder = StringBuilder()
     init {
-        stringBuilder.appendln("@startuml")
-                .appendln("skinparam component {" )
-                .appendln( "\tbackgroundColor<<event>> Orange" )
-                .appendln( "\tbackgroundColor<<command>> LightBlue" )
-                .appendln( "\tbackgroundColor<<external>> Pink" )
-                .appendln( "\tbackgroundColor<<document>> Green" )
-                .appendln( "}" )
+        stringBuilder.appendLine("@startuml")
+            .appendLine( "skinparam componentStyle rectangle")
+            .appendLine("skinparam rectangle {")
+            .appendLine("\tbackgroundColor<<event>> Orange")
+            .appendLine("\tbackgroundColor<<command>> LightBlue")
+            .appendLine("\tbackgroundColor<<external>> Pink")
+            .appendLine("\tbackgroundColor<<document>> Green")
+            .appendLine("\tbackgroundColor<<invariant>> Yellow")
+            .appendLine("}")
 
         IntStream.range(0,domainObjects.size).forEach{ domainObjects.get(it).index = it  }
         var lastCommand: DomainObject? = null
@@ -36,7 +39,7 @@ class PlantUML (domainObjects : List<DomainObject>){
                     events.clear()
                 }
                 is Event -> {
-                    dobj.prevDomainObject = if( lastDomainObject is Comment ) lastDomainObject.prevDomainObject else lastDomainObject
+                    dobj.prevDomainObject = if( lastDomainObject is Comment || lastDomainObject is Invariant ) lastDomainObject.prevDomainObject else lastDomainObject
                 }
                 is Comment -> {
                     if (lastDomainObject is Comment)
@@ -48,6 +51,9 @@ class PlantUML (domainObjects : List<DomainObject>){
                 is Document -> {
                     dobj.prevDomainObject = lastDomainObject
                 }
+                is Invariant -> {
+                    dobj.prevDomainObject = lastDomainObject
+                }
             }
             if( !(dobj is Comment && dobj.prevDomainObject == null) ) { //the only time it's null is when the prev dobj is also a comment
                 lastDomainObject = dobj
@@ -56,7 +62,7 @@ class PlantUML (domainObjects : List<DomainObject>){
         }
         // process the last events list
         stringBuilder.append(processDomainObjects(events))
-        stringBuilder.appendln( "@enduml" )
+        stringBuilder.appendLine("@enduml")
     }
 
     fun processDomainObjects(domainObjects: List<DomainObject> ): StringBuilder {
@@ -71,75 +77,86 @@ class PlantUML (domainObjects : List<DomainObject>){
         val sb = StringBuilder()
         when( dobj ) {
             is Command -> {
-                sb.appendln("component C${dobj.index} <<command>> [")
-                sb.appendln(parseName(dobj.name))
+                sb.appendLine("component C${dobj.index} <<command>> [")
+                sb.appendLine(parseName(dobj.name))
                 if( dobj.properties.size > 0 ) {
-                    sb.appendln( "---" )
+                    sb.appendLine("---")
                     for( prop in dobj.properties ) sb.appendln( "- ${prop}")
                 }
-                sb.appendln("]")
+                sb.appendLine("]")
                 if (dobj.prevDomainObject != null)
-                    sb.appendln("C${dobj.prevDomainObject?.index} -[hidden]right-> C${dobj.index}")
+                    sb.appendLine("C${dobj.prevDomainObject?.index} -[hidden]right-> C${dobj.index}")
             }
             is External -> {
-                sb.appendln("component C${dobj.index} <<external>> [")
-                sb.appendln(parseName(dobj.name))
+                sb.appendLine("component C${dobj.index} <<external>> [")
+                sb.appendLine(parseName(dobj.name))
                 if( dobj.properties.size > 0 ) {
-                    sb.appendln( "---" )
+                    sb.appendLine("---")
                     for( prop in dobj.properties ) sb.appendln( "- ${prop}")
                 }
-                sb.appendln("]")
+                sb.appendLine("]")
                 if (dobj.prevDomainObject != null)
-                    sb.appendln("C${dobj.prevDomainObject?.index} -[hidden]right-> C${dobj.index}")
+                    sb.appendLine("C${dobj.prevDomainObject?.index} -[hidden]right-> C${dobj.index}")
             }
             is Event -> {
-                sb.appendln("component C${dobj.index} <<event>> [")
-                sb.appendln(dobj.name)
+                sb.appendLine("component C${dobj.index} <<event>> [")
+                sb.appendLine(dobj.name)
                 if( dobj.properties.size > 0 ) {
-                    sb.appendln( "---" )
+                    sb.appendLine("---")
                     for( prop in dobj.properties ) sb.appendln( "- ${prop}")
                 }
-                sb.appendln("]")
+                sb.appendLine("]")
                 when( dobj.prevDomainObject ) {
                     is Event -> {
-                        sb.appendln("C${dobj.prevDomainObject?.index} -> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.index} -> C${dobj.index}")
                     }
                     is Command -> {
-                        sb.appendln("C${dobj.prevDomainObject?.index} --> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.index} --> C${dobj.index}")
                     }
                     is External -> {
-                        sb.appendln("C${dobj.prevDomainObject?.index} --> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.index} --> C${dobj.index}")
                     }
                 }
             }
             is Comment -> {
                 when( dobj.prevDomainObject ) {
                     is Event, is Document -> {
-                        sb.appendln("note bottom of C${dobj.prevDomainObject?.index}")
-                        sb.appendln(dobj.text)
-                        sb.appendln("end note")
+                        sb.appendLine("note bottom of C${dobj.prevDomainObject?.index}")
+                        sb.appendLine(dobj.text)
+                        sb.appendLine("end note")
                     }
                     is Command -> {
-                        sb.appendln("note top of C${dobj.prevDomainObject?.index}")
-                        sb.appendln(dobj.text)
-                        sb.appendln("end note")
+                        sb.appendLine("note top of C${dobj.prevDomainObject?.index}")
+                        sb.appendLine(dobj.text)
+                        sb.appendLine("end note")
 
                     }
                 }
             }
             is Document -> {
-                sb.appendln("component C${dobj.index} <<document>> [")
-                sb.appendln(dobj.name)
+                sb.appendLine("component C${dobj.index} <<document>> [")
+                sb.appendLine(dobj.name)
                 if( dobj.properties.size > 0 ) {
-                    sb.appendln( "---" )
+                    sb.appendLine("---")
                     for( prop in dobj.properties ) sb.appendln( "- ${prop}")
                 }
-                sb.appendln("]")
+                sb.appendLine("]")
                 when( dobj.prevDomainObject ) {
                     is Comment -> {
-                        sb.appendln("C${dobj.prevDomainObject?.prevDomainObject?.index} -[hidden]-> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.prevDomainObject?.index} -[hidden]-> C${dobj.index}")
                     }
-                    else -> sb.appendln("C${dobj.prevDomainObject?.index} -[hidden]-> C${dobj.index}")
+                    else -> sb.appendLine("C${dobj.prevDomainObject?.index} -[hidden]-> C${dobj.index}")
+                }
+            }
+            is Invariant -> {
+                sb.appendLine( "component C${dobj.index} <<invariant>> [ ")
+                sb.appendLine(dobj.text)
+                sb.appendLine("]")
+                when( dobj.prevDomainObject ) {
+                    is Event -> {
+                        sb.appendLine("C${dobj.prevDomainObject?.index} -[hidden]-> C${dobj.index}")
+                    }
+                    else -> throw RuntimeException("Invariant must belongs to an Event")
                 }
             }
         }

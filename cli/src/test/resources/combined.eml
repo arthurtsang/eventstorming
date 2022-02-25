@@ -4,5 +4,15 @@ Command ->
 event
 document* //one, two, three
 
+[ branch for if this
 ABC ->
 abc // apple, orange, banana
+! if this
+--- branch for if that
+fgh // airplane, rocket, ship
+! if that
+document* //what, is, this
+]
+
+Done ->
+done

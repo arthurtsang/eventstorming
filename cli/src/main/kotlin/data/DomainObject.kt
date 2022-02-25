@@ -21,6 +21,9 @@ open class DomainObject {
             if (text.indexOf("*") > 0) {
                 return Document(text)
             }
+            if (text.startsWith( "!")) {
+                return Invariant(text)
+            }
             return Event(text)
         }
     }

@@ -1,9 +1,11 @@
 @startuml
-skinparam component {
+skinparam componentStyle rectangle
+skinparam rectangle {
 	backgroundColor<<event>> Orange
 	backgroundColor<<command>> LightBlue
 	backgroundColor<<external>> Pink
 	backgroundColor<<document>> Green
+	backgroundColor<<invariant>> Yellow
 }
 component C0 <<command>> [
 Command
@@ -36,4 +38,28 @@ abc
 - banana
 ]
 C5 --> C6
+component C7 <<invariant>> [ 
+if this
+]
+C6 -[hidden]-> C7
+component C8 <<event>> [
+fgh 
+---
+- airplane
+- rocket
+- ship
+]
+C6 -> C8
+component C9 <<invariant>> [ 
+if that
+]
+C8 -[hidden]-> C9
+component C10 <<document>> [
+document
+---
+- what
+- is
+- this
+]
+C9 -[hidden]-> C10
 @enduml
