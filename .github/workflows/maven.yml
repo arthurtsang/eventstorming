@@ -27,4 +27,4 @@ jobs:
       - name: deploy to github packages
         run: mvn -B deploy -DskipTests -pl cli
         env:
-          GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
