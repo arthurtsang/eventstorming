@@ -42,7 +42,7 @@ A1
 - x1
 - y1
 ]
-C6 -----[hidden]-> C8
+C6 ---[hidden]-> C8
 component C9 <<event>> [
 a1
 ]

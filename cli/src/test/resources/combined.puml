@@ -45,7 +45,7 @@ C7 .[#green,thickness=3].> C8
 component C10 <<command>> [
 FGH
 ]
-C8 -----[hidden]-> C10
+C8 ---[hidden]-> C10
 component C11 <<event>> [
 fgh 
 ---
@@ -77,7 +77,7 @@ C15 .[#green,thickness=3].> C16
 component C18 <<command>> [
 Nested
 ]
-C16 -----[hidden]-> C18
+C16 ---[hidden]-> C18
 component C19 <<event>> [
 nested b
 ]

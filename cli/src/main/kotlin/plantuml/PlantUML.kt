@@ -47,7 +47,6 @@ class PlantUML (domainObjects : List<DomainObject>){
                         }
                         is EndBlock -> {
                             val elseBlock = lastDomainObject.beginBlock!!.elseBlocks[0]
-                            //val elseBlock = blockStack.findLast { it is ElseBlock }
                             dobj.prevDomainObject = elseBlock!!.prevCommand.first()
                             lastDomainObject.nextCommand.add(dobj)
                             blockStack.findLast { it is EndBlock && it.nextCommand.isEmpty()  }?.nextCommand?.add(dobj) // if a block is closed and another block is opened right away, we'll need to set the next command to this command
@@ -186,8 +185,7 @@ class PlantUML (domainObjects : List<DomainObject>){
                         lowestDomainObject = lowestDomainObject.nextDomainObject!!
                         if(  lowestDomainObject.nextDomainObject is Block  || lowestDomainObject.nextDomainObject is Command ||  lowestDomainObject.nextDomainObject is External) break;
                     }
-                    //sb.appendLine( "C${dobj.belowCommand?.index} -----[hidden]-> C${dobj.index}" )
-                    sb.appendLine( "C${lowestDomainObject?.index} -----[hidden]-> C${dobj.index}" )
+                    sb.appendLine( "C${lowestDomainObject?.index} ---[hidden]-> C${dobj.index}" )
                 }
             }
             is External -> {
