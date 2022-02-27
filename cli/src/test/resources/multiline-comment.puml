@@ -10,20 +10,24 @@ skinparam rectangle {
 component C0 <<command>> [
 ABC
 ]
-component C1 <<event>> [
-abc
-]
-C0 .[#green,thickness=3].> C1
-note bottom of C1
+note top of C0
 line 1
 line 2
 end note
-component C4 <<command>> [
+component C3 <<event>> [
+abc
+]
+C0 .[#green,thickness=3].> C3
+note bottom of C3
+line a
+line b
+end note
+component C6 <<command>> [
 DEF
 ]
-C0 -[hidden]right-> C4
-component C5 <<event>> [
+C0 -[hidden]right-> C6
+component C7 <<event>> [
 def
 ]
-C4 .[#green,thickness=3].> C5
+C6 .[#green,thickness=3].> C7
 @enduml

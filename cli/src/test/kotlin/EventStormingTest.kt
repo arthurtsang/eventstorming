@@ -29,12 +29,7 @@ class EventStormingTest {
 
     @Test
     fun testMultilineCommentCommand() {
-        testBase("multiline-comment-command")
-    }
-
-    @Test
-    fun testMultilineCommentEvent() {
-        testBase("multiline-comment-event")
+        testBase("multiline-comment")
     }
 
     @Test
@@ -70,6 +65,11 @@ class EventStormingTest {
     @Test
     fun testParallel() {
         testBase( "parallel" )
+    }
+
+    @Test
+    fun testInvariant() {
+        testBase( "invariant" )
     }
 
     fun testBase(name: String) {
