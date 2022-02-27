@@ -1,59 +1,62 @@
 @startuml
-skinparam component {
+skinparam componentStyle rectangle
+skinparam rectangle {
 	backgroundColor<<event>> Orange
 	backgroundColor<<command>> LightBlue
 	backgroundColor<<external>> Pink
 	backgroundColor<<document>> Green
+	backgroundColor<<invariant>> Yellow
 }
-component C0 <<event>> [
-//---
----
-- ---
+component C0 <<command>> [
+X
 ]
 component C1 <<event>> [
-{
+x
 ]
-C0 -> C1
-component C2 <<command>> [
+C0 --> C1
+component C3 <<command>> [
 A
 ---
 - x
 - y
 ]
-component C3 <<event>> [
+C0 -[hidden]right-> C3
+component C4 <<event>> [
 a
 ]
-C2 --> C3
-component C4 <<command>> [
+C3 --> C4
+component C5 <<command>> [
 B
 ---
 - i
 - j
 ]
-C2 -[hidden]right-> C4
-component C5 <<event>> [
+C3 -[hidden]right-> C5
+component C6 <<event>> [
 b
 ]
-C4 --> C5
-component C6 <<event>> [
-}
-]
-C5 -> C6
-component C7 <<command>> [
+C5 --> C6
+component C8 <<command>> [
 A1
 ---
 - x1
 - y1
 ]
-C4 -[hidden]right-> C7
-component C8 <<event>> [
+C3 -----[hidden]> C8
+component C9 <<event>> [
 a1
 ]
-C7 --> C8
-component C9 <<event>> [
---
----
-- 
+C8 --> C9
+component C11 <<command>> [
+Y
 ]
-C8 -> C9
+C5 -[hidden]right-> C11
+component C12 <<event>> [
+y
+]
+C11 --> C12
+C0 -> C3
+C0 -> C8
+C5 - C11
+C8 -up-> C11
 @enduml

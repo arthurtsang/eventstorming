@@ -26,40 +26,84 @@ document
 - three
 ]
 C3 -[hidden]-> C4
-component C5 <<command>> [
+component C6 <<command>> [
 ABC
 ]
-C0 -[hidden]right-> C5
-component C6 <<event>> [
+C0 -[hidden]right-> C6
+component C7 <<event>> [
 abc 
 ---
 - apple
 - orange
 - banana
 ]
-C5 --> C6
-component C7 <<invariant>> [ 
+C6 --> C7
+component C8 <<invariant>> [ 
 if this
 ]
-C6 -[hidden]-> C7
-component C8 <<event>> [
+C7 -[hidden]-> C8
+component C10 <<command>> [
+FGH
+]
+C6 -----[hidden]> C10
+component C11 <<event>> [
 fgh 
 ---
 - airplane
 - rocket
 - ship
 ]
-C6 -> C8
-component C9 <<invariant>> [ 
+C10 --> C11
+component C12 <<invariant>> [ 
 if that
 ]
-C8 -[hidden]-> C9
-component C10 <<document>> [
+C11 -[hidden]-> C12
+component C13 <<document>> [
 document
 ---
 - what
 - is
 - this
 ]
-C9 -[hidden]-> C10
+C12 -[hidden]-> C13
+component C15 <<command>> [
+Nested
+]
+C10 -[hidden]right-> C15
+component C16 <<event>> [
+nested a
+]
+C15 --> C16
+component C18 <<command>> [
+Nested
+]
+C15 -----[hidden]> C18
+component C19 <<event>> [
+nested b
+]
+C18 --> C19
+component C21 <<command>> [
+XYZ
+]
+C15 -[hidden]right-> C21
+component C22 <<event>> [
+xyz
+]
+C21 --> C22
+component C24 <<command>> [
+Done
+]
+C6 -[hidden]right-> C24
+component C25 <<event>> [
+done
+]
+C24 --> C25
+C0 -> C6: branch for if this
+C0 -> C10: branch for if that
+C10 -> C15: nested branch a
+C10 -> C18: nested branch b
+C15 - C21: end nest a or b
+C18 -up-> C21: end nest a or b
+C6 - C24: end if this or that
+C21 -up-> C24: end if this or that
 @enduml

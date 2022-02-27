@@ -71,6 +71,7 @@ class EventStormingTest {
     fun testParallel() {
         testBase( "parallel" )
     }
+
     fun testBase(name: String) {
         val eml = File(this::class.java.getResource("${name}.eml").toURI())
         val dobj = EventStorming(eml).getDomainObject()

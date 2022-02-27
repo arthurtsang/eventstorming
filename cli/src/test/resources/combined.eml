@@ -8,11 +8,21 @@ document* //one, two, three
 ABC ->
 abc // apple, orange, banana
 ! if this
---- branch for if that
+~ branch for if that
+FGH ->
 fgh // airplane, rocket, ship
 ! if that
 document* //what, is, this
-]
+[ nested branch a
+Nested ->
+nested a
+~ nested branch b
+Nested ->
+nested b
+] end nest a or b
+XYZ ->
+xyz
+] end if this or that
 
 Done ->
 done

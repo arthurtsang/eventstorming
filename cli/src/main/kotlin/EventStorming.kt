@@ -24,7 +24,7 @@ class EventStorming (emlReader: Reader){
     private val domainObject : List<DomainObject> = emlReader.buffered().use { reader ->
         reader.lines()
                 .filter { !it.isBlank() }
-                .map { DomainObject.parse(it) }
+                .map { DomainObject.parse(it.trim()) }
                 .collect(toList())
     }
 

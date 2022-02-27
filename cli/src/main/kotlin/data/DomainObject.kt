@@ -24,8 +24,22 @@ open class DomainObject {
             if (text.startsWith( "!")) {
                 return Invariant(text)
             }
+            if ( text.startsWith( "[" )) {
+                return BeginBlock(text)
+            }
+            if ( text.startsWith( "]")) {
+                return EndBlock(text)
+            }
+            if ( text.startsWith( "~")) {
+                return ElseBlock(text)
+            }
             return Event(text)
         }
+    }
+
+    fun lastEvent(): DomainObject {
+        if( this is Event ) return  this
+        return this.prevDomainObject!!?.lastEvent()
     }
 
     fun extractProperties(text: String): List<String> {

@@ -1,9 +1,11 @@
 @startuml
-skinparam component {
+skinparam componentStyle rectangle
+skinparam rectangle {
 	backgroundColor<<event>> Orange
 	backgroundColor<<command>> LightBlue
 	backgroundColor<<external>> Pink
 	backgroundColor<<document>> Green
+	backgroundColor<<invariant>> Yellow
 }
 component C0 <<external>> [
 A
