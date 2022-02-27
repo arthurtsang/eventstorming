@@ -6,6 +6,7 @@ import net.sourceforge.plantuml.SourceStringReader
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.lang.Exception
 import java.nio.file.Path
 import java.util.stream.IntStream
 
@@ -99,16 +100,19 @@ class PlantUML (domainObjects : List<DomainObject>){
             when( dobj ) {
                 is Block -> {
                     lastDomainObject = dobj // blocks are printed when the outermost block are completed and in the next command domain object.  so that the endblock has info on where the next command is
+                    dobj.prevDomainObject?.nextDomainObject = dobj
                 }
                 is Comment -> {
                     if( dobj.prevDomainObject != null ) {// this only happens with prevDomainObject and current dobj is both a comment
                         lastDomainObject = dobj
+                        dobj.prevDomainObject?.nextDomainObject = dobj
                         events.add(dobj)
 
                     }
                 }
                 else -> {
                     lastDomainObject = dobj
+                    dobj.prevDomainObject?.nextDomainObject = dobj
                     events.add(dobj)
                 }
             }
@@ -136,18 +140,18 @@ class PlantUML (domainObjects : List<DomainObject>){
                         null, "" -> { "" }
                         else -> { ": ${it.comment}" }
                     }
-                    sb.appendLine( "C${prevCommand.index} -> C${it.nextCommand[0].index}${getPlantUMLComment(it.comment)}")
+                    sb.appendLine( "C${prevCommand.index} -[#Blue]> C${it.nextCommand[0].index}${getPlantUMLComment(it.comment)}")
                     it.elseBlocks.forEach {
-                        sb.appendLine( "C${prevCommand.index} -> C${it.nextCommand[0].index}${getPlantUMLComment(it.comment)}")
+                        sb.appendLine( "C${prevCommand.index} -[#Blue]> C${it.nextCommand[0].index}${getPlantUMLComment(it.comment)}")
                     }
                 }
                 is EndBlock -> {
                     val nextCommand = it.nextCommand.first()
                     val comment = getPlantUMLComment(it.comment)
-                    sb.appendLine( "C${it.prevCommand[0].index} - C${nextCommand.index}${comment}" )
+                    sb.appendLine( "C${it.prevCommand[0].index} -[#Blue]> C${nextCommand.index}${comment}" )
                     it.prevCommand.removeAt(0)
                     it.prevCommand.forEach {
-                        sb.appendLine( "C${it.index} -up-> C${nextCommand.index}${comment}")
+                        sb.appendLine( "C${it.index} -[#Blue]up-> C${nextCommand.index}${comment}")
                     }
                 }
             }
@@ -177,7 +181,13 @@ class PlantUML (domainObjects : List<DomainObject>){
                 if (dobj.prevDomainObject != null)
                     sb.appendLine("C${dobj.prevDomainObject?.index} -[hidden]right-> C${dobj.index}")
                 if (dobj.belowCommand != null ) {
-                    sb.appendLine( "C${dobj.belowCommand?.index} -----[hidden]> C${dobj.index}" )
+                    var lowestDomainObject: DomainObject = dobj.belowCommand!!
+                    while ( lowestDomainObject != null ) {
+                        lowestDomainObject = lowestDomainObject.nextDomainObject!!
+                        if(  lowestDomainObject.nextDomainObject is Block  || lowestDomainObject.nextDomainObject is Command ||  lowestDomainObject.nextDomainObject is External) break;
+                    }
+                    //sb.appendLine( "C${dobj.belowCommand?.index} -----[hidden]-> C${dobj.index}" )
+                    sb.appendLine( "C${lowestDomainObject?.index} -----[hidden]-> C${dobj.index}" )
                 }
             }
             is External -> {
@@ -201,13 +211,13 @@ class PlantUML (domainObjects : List<DomainObject>){
                 sb.appendLine("]")
                 when( dobj.prevDomainObject ) {
                     is Event -> {
-                        sb.appendLine("C${dobj.prevDomainObject?.index} -> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.index}  .[#green,thickness=3]> C${dobj.index}")
                     }
                     is Command -> {
-                        sb.appendLine("C${dobj.prevDomainObject?.index} --> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.index} .[#green,thickness=3].> C${dobj.index}")
                     }
                     is External -> {
-                        sb.appendLine("C${dobj.prevDomainObject?.index} --> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.index} .[#green,thickness=3].> C${dobj.index}")
                     }
                 }
             }
@@ -236,9 +246,9 @@ class PlantUML (domainObjects : List<DomainObject>){
                 sb.appendLine("]")
                 when( dobj.prevDomainObject ) {
                     is Comment -> {
-                        sb.appendLine("C${dobj.prevDomainObject?.prevDomainObject?.index} -[hidden]-> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.prevDomainObject?.index} .[#green,thickness=3].> C${dobj.index}")
                     }
-                    else -> sb.appendLine("C${dobj.prevDomainObject?.index} -[hidden]-> C${dobj.index}")
+                    else -> sb.appendLine("C${dobj.prevDomainObject?.index} .[#green,thickness=3].> C${dobj.index}")
                 }
             }
             is Invariant -> {
@@ -247,7 +257,7 @@ class PlantUML (domainObjects : List<DomainObject>){
                 sb.appendLine("]")
                 when( dobj.prevDomainObject ) {
                     is Event -> {
-                        sb.appendLine("C${dobj.prevDomainObject?.index} -[hidden]-> C${dobj.index}")
+                        sb.appendLine("C${dobj.prevDomainObject?.index} .[#green,thickness=3].> C${dobj.index}")
                     }
                     else -> throw RuntimeException("Invariant must belongs to an Event")
                 }

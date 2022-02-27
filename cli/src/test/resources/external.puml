@@ -16,7 +16,7 @@ A
 component C1 <<event>> [
 a
 ]
-C0 --> C1
+C0 .[#green,thickness=3].> C1
 component C2 <<command>> [
 B
 ]
@@ -24,5 +24,5 @@ C0 -[hidden]right-> C2
 component C3 <<event>> [
 b
 ]
-C2 --> C3
+C2 .[#green,thickness=3].> C3
 @enduml

@@ -13,7 +13,7 @@ ABC
 component C1 <<event>> [
 abc
 ]
-C0 --> C1
+C0 .[#green,thickness=3].> C1
 note bottom of C1
 line 1
 line 2
@@ -25,5 +25,5 @@ C0 -[hidden]right-> C4
 component C5 <<event>> [
 def
 ]
-C4 --> C5
+C4 .[#green,thickness=3].> C5
 @enduml

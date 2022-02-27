@@ -6,6 +6,7 @@ import java.util.stream.Collectors
 open class DomainObject {
     var index: Int = -1
     var prevDomainObject: DomainObject? = null
+    var nextDomainObject: DomainObject? = null
 
     companion object {
         fun parse(text: String): DomainObject {

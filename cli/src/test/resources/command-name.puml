@@ -15,7 +15,7 @@ ABC
 component C1 <<event>> [
 abc
 ]
-C0 --> C1
+C0 .[#green,thickness=3].> C1
 component C2 <<command>> [
 DEF
 ---
@@ -25,7 +25,7 @@ C0 -[hidden]right-> C2
 component C3 <<event>> [
 def
 ]
-C2 --> C3
+C2 .[#green,thickness=3].> C3
 component C4 <<command>> [
 XXX
 ---
@@ -37,7 +37,7 @@ C2 -[hidden]right-> C4
 component C5 <<event>> [
 xxx
 ]
-C4 --> C5
+C4 .[#green,thickness=3].> C5
 component C6 <<command>> [
 YYY
 ---
@@ -49,7 +49,7 @@ C4 -[hidden]right-> C6
 component C7 <<event>> [
 yyy
 ]
-C6 --> C7
+C6 .[#green,thickness=3].> C7
 component C8 <<command>> [
 ZZZ
 ---
@@ -61,5 +61,5 @@ C6 -[hidden]right-> C8
 component C9 <<event>> [
 zzz
 ]
-C8 --> C9
+C8 .[#green,thickness=3].> C9
 @enduml

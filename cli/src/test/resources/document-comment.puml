@@ -17,7 +17,7 @@ end note
 component C3 <<event>> [
 abc
 ]
-C0 --> C3
+C0 .[#green,thickness=3].> C3
 note bottom of C3
 x
 y
@@ -29,7 +29,7 @@ document
 - f2
 - f3
 ]
-C3 -[hidden]-> C6
+C3 .[#green,thickness=3].> C6
 component C7 <<command>> [
 DEF
 ]
@@ -37,5 +37,5 @@ C0 -[hidden]right-> C7
 component C8 <<event>> [
 def
 ]
-C7 --> C8
+C7 .[#green,thickness=3].> C8
 @enduml

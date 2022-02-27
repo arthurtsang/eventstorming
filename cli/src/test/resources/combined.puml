@@ -17,7 +17,7 @@ end note
 component C3 <<event>> [
 event
 ]
-C0 --> C3
+C0 .[#green,thickness=3].> C3
 component C4 <<document>> [
 document
 ---
@@ -25,7 +25,7 @@ document
 - two
 - three
 ]
-C3 -[hidden]-> C4
+C3 .[#green,thickness=3].> C4
 component C6 <<command>> [
 ABC
 ]
@@ -37,15 +37,15 @@ abc
 - orange
 - banana
 ]
-C6 --> C7
+C6 .[#green,thickness=3].> C7
 component C8 <<invariant>> [ 
 if this
 ]
-C7 -[hidden]-> C8
+C7 .[#green,thickness=3].> C8
 component C10 <<command>> [
 FGH
 ]
-C6 -----[hidden]> C10
+C8 -----[hidden]-> C10
 component C11 <<event>> [
 fgh 
 ---
@@ -53,11 +53,11 @@ fgh
 - rocket
 - ship
 ]
-C10 --> C11
+C10 .[#green,thickness=3].> C11
 component C12 <<invariant>> [ 
 if that
 ]
-C11 -[hidden]-> C12
+C11 .[#green,thickness=3].> C12
 component C13 <<document>> [
 document
 ---
@@ -65,7 +65,7 @@ document
 - is
 - this
 ]
-C12 -[hidden]-> C13
+C12 .[#green,thickness=3].> C13
 component C15 <<command>> [
 Nested
 ]
@@ -73,15 +73,15 @@ C10 -[hidden]right-> C15
 component C16 <<event>> [
 nested a
 ]
-C15 --> C16
+C15 .[#green,thickness=3].> C16
 component C18 <<command>> [
 Nested
 ]
-C15 -----[hidden]> C18
+C16 -----[hidden]-> C18
 component C19 <<event>> [
 nested b
 ]
-C18 --> C19
+C18 .[#green,thickness=3].> C19
 component C21 <<command>> [
 XYZ
 ]
@@ -89,7 +89,7 @@ C15 -[hidden]right-> C21
 component C22 <<event>> [
 xyz
 ]
-C21 --> C22
+C21 .[#green,thickness=3].> C22
 component C24 <<command>> [
 Done
 ]
@@ -97,13 +97,13 @@ C6 -[hidden]right-> C24
 component C25 <<event>> [
 done
 ]
-C24 --> C25
-C0 -> C6: branch for if this
-C0 -> C10: branch for if that
-C10 -> C15: nested branch a
-C10 -> C18: nested branch b
-C15 - C21: end nest a or b
-C18 -up-> C21: end nest a or b
-C6 - C24: end if this or that
-C21 -up-> C24: end if this or that
+C24 .[#green,thickness=3].> C25
+C0 -[#Blue]> C6: branch for if this
+C0 -[#Blue]> C10: branch for if that
+C10 -[#Blue]> C15: nested branch a
+C10 -[#Blue]> C18: nested branch b
+C15 -[#Blue]> C21: end nest a or b
+C18 -[#Blue]up-> C21: end nest a or b
+C6 -[#Blue]> C24: end if this or that
+C21 -[#Blue]up-> C24: end if this or that
 @enduml

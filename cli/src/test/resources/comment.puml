@@ -16,7 +16,7 @@ end note
 component C2 <<event>> [
 abc
 ]
-C0 --> C2
+C0 .[#green,thickness=3].> C2
 note bottom of C2
 comment on event
 end note
@@ -27,5 +27,5 @@ C0 -[hidden]right-> C4
 component C5 <<event>> [
 def
 ]
-C4 --> C5
+C4 .[#green,thickness=3].> C5
 @enduml
